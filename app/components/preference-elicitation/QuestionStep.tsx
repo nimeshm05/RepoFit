@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "@/app/components/ui/Button";
 import { Text } from "@/app/components/ui/Text";
 import { Textarea } from "@/app/components/ui/Textarea";
-import { isValidAnswer } from "@/lib/preferences/validation";
+import { isValidAnswer } from "@/lib/preference-elicitation/validation";
 
 type QuestionStepProps = {
   question: string;

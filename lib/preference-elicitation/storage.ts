@@ -1,5 +1,5 @@
-import { OPENING_QUESTION } from "@/lib/preferences/constants";
-import type { ElicitationSession } from "@/lib/preferences/types";
+import { OPENING_QUESTION } from "@/lib/preference-elicitation/constants";
+import type { ElicitationSession } from "@/lib/preference-elicitation/types";
 
 import { ELICITATION_STORAGE_KEY } from "./constants";
 

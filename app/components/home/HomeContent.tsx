@@ -5,7 +5,7 @@ import { buttonVariants } from "@/lib/button-variants";
 import { Text } from "@/app/components/ui/Text";
 import { cn } from "@/lib/cn";
 
-export function MainContainer() {
+export function HomeContent() {
   return (
     <div className="flex w-full flex-col items-start gap-10 p-2.5">
       <div className="flex w-full flex-col items-start gap-20">
@@ -22,7 +22,7 @@ export function MainContainer() {
         </Text>
       </div>
 
-      <Link href="/onboarding?restart=1" className={cn(buttonVariants())}>
+      <Link href="/preference-elicitation?restart=1" className={cn(buttonVariants())}>
         Get Started
         <Image
           src="/icons/arrow-right.svg"

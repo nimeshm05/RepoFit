@@ -1,12 +1,12 @@
 import OpenAI from "openai";
 
-import { buildSystemPrompt } from "@/lib/preferences/buildSystemPrompt";
-import { DEFAULT_OPENAI_MODEL, MAX_QUESTIONS } from "@/lib/preferences/constants";
+import { buildSystemPrompt } from "@/lib/preference-elicitation/buildSystemPrompt";
+import { DEFAULT_OPENAI_MODEL, MAX_QUESTIONS } from "@/lib/preference-elicitation/constants";
 import type {
   ElicitationResponse,
   ElicitationTurn,
   PreferenceProfile,
-} from "@/lib/preferences/types";
+} from "@/lib/preference-elicitation/types";
 
 function getOpenAIClient(): OpenAI {
   const apiKey = process.env.OPENAI_API_KEY;

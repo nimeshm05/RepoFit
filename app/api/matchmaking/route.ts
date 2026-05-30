@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { runElicitationStep } from "@/lib/preference-elicitation/runElicitationStep";
-import type { ElicitationRequest, ElicitationTurn } from "@/lib/preference-elicitation/types";
+import { MatchmakingDatasetError } from "@/lib/matchmaking/loadRepoDataset";
+import { runMatchmaking } from "@/lib/matchmaking/runMatchmaking";
+import type { MatchmakingRequest } from "@/lib/matchmaking/types";
+import type { ElicitationTurn } from "@/lib/preference-elicitation/types";
 import { isValidAnswer } from "@/lib/preference-elicitation/validation";
 
 function isElicitationTurn(value: unknown): value is ElicitationTurn {
@@ -17,7 +19,7 @@ function isElicitationTurn(value: unknown): value is ElicitationTurn {
   );
 }
 
-function parseRequestBody(body: unknown): ElicitationRequest | null {
+function parseRequestBody(body: unknown): MatchmakingRequest | null {
   if (typeof body !== "object" || body === null) {
     return null;
   }
@@ -52,24 +54,30 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await runElicitationStep(parsed.turns);
+    const result = await runMatchmaking(parsed.turns);
     return NextResponse.json(result);
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "Preference elicitation failed";
+      error instanceof Error ? error.message : "Matchmaking failed";
 
     if (message === "OPENAI_API_KEY is not configured") {
       return NextResponse.json({ error: message }, { status: 503 });
     }
 
-    if (message.includes("Model returned") || message.includes("Model response")) {
+    if (error instanceof MatchmakingDatasetError) {
+      return NextResponse.json({ error: message }, { status: 503 });
+    }
+
+    if (
+      message.includes("Model returned") ||
+      message.includes("Model must") ||
+      message.includes("Model response") ||
+      message.includes("Model recommended")
+    ) {
       return NextResponse.json({ error: "Invalid model response" }, { status: 502 });
     }
 
-    console.error("preference-elicitation error:", error);
-    return NextResponse.json(
-      { error: "Preference elicitation failed" },
-      { status: 500 },
-    );
+    console.error("matchmaking error:", error);
+    return NextResponse.json({ error: "Matchmaking failed" }, { status: 500 });
   }
 }

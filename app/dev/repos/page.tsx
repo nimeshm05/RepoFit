@@ -1,6 +1,6 @@
 import { getBeginnerFriendlyRepos } from "@/lib/github/getBeginnerFriendlyRepos";
 
-import { RepoCard } from "@/app/components/repos/RepoCard";
+import { RepoCard } from "@/app/components/repositories/RepoCard";
 import { Text } from "@/app/components/ui/Text";
 
 export default async function ReposPage() {
@@ -15,7 +15,7 @@ export default async function ReposPage() {
             weight="semibold"
             className="uppercase tracking-wide text-muted"
           >
-            Open Source for Beginners
+            Dev catalog
           </Text>
           <Text as="h1" size="5xl">
             Beginner-friendly open source repositories

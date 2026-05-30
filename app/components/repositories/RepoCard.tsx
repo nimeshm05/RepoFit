@@ -21,15 +21,28 @@ function categoryStyles(category: RepoCategory): string {
     : "bg-sky-100 text-sky-900";
 }
 
-type RepoCardProps = {
-  repo: RepoSummary;
+type RepoRecommendationDetails = {
+  rank: number;
+  whyThisMatches: string;
+  matchHighlights: string[];
+  tradeoffs: string[];
 };
 
-export function RepoCard({ repo }: RepoCardProps) {
+type RepoCardProps = {
+  repo: RepoSummary;
+  recommendation?: RepoRecommendationDetails;
+};
+
+export function RepoCard({ repo, recommendation }: RepoCardProps) {
   return (
     <Card>
       <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2">
+          {recommendation && (
+            <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-medium text-primary-foreground">
+              #{recommendation.rank}
+            </span>
+          )}
           <a
             href={repo.url}
             target="_blank"
@@ -75,6 +88,39 @@ export function RepoCard({ repo }: RepoCardProps) {
             <dd>Updated {formatUpdatedDate(repo.updatedAt)}</dd>
           </div>
         </dl>
+
+        {recommendation && (
+          <div className="flex flex-col gap-4 border-t border-border pt-4">
+            <div className="flex flex-col gap-2">
+              <Text size="sm" weight="semibold" className="uppercase tracking-wide text-muted">
+                Why this matches
+              </Text>
+              <Text size="lg">{recommendation.whyThisMatches}</Text>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Text size="sm" weight="semibold" className="uppercase tracking-wide text-muted">
+                Match highlights
+              </Text>
+              <ul className="list-disc space-y-1 pl-5 text-lg text-foreground">
+                {recommendation.matchHighlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Text size="sm" weight="semibold" className="uppercase tracking-wide text-muted">
+                Tradeoffs
+              </Text>
+              <ul className="list-disc space-y-1 pl-5 text-lg text-muted">
+                {recommendation.tradeoffs.map((tradeoff) => (
+                  <li key={tradeoff}>{tradeoff}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
 
         {repo.readme && (
           <details className="rounded-card border border-border bg-background">

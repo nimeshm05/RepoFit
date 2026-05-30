@@ -73,9 +73,9 @@ The conversation should be treated as a coherent behavioral signal rather than i
 
 The model must receive repository data from:
 
-`github-api-response.json`
+`logs/matchmaking-repos.json`
 
-This file contains GitHub API response data and repository metadata.
+This file is generated locally via `npm run fetch-repos` and contains beginner-friendly repositories with full README content and metadata.
 
 The model should analyze all repositories present in this dataset.
 

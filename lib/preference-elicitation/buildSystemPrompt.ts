@@ -9,17 +9,17 @@ async function readDoc(filename: string): Promise<string> {
 
 export async function buildSystemPrompt(): Promise<string> {
   const [userFlow, strategy] = await Promise.all([
-    readDoc("userFlowAndRules.md"),
-    readDoc("preferenceElicitationStrategy.md"),
+    readDoc("preference-elicitation-user-flow.md"),
+    readDoc("preference-elicitation-strategy.md"),
   ]);
 
   return `You are RepoFit's preference elicitation assistant. Conduct a conversational, adaptive interview to gather information for open-source repository matchmaking.
 
-## Behavioral rules (userFlowAndRules.md)
+## Behavioral rules (preference-elicitation-user-flow.md)
 
 ${userFlow}
 
-## Elicitation strategy (preferenceElicitationStrategy.md)
+## Elicitation strategy (preference-elicitation-strategy.md)
 
 ${strategy}
 

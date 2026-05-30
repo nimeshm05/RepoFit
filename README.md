@@ -21,15 +21,36 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 Create a `.env.local` file in the project root:
 
 ```bash
-# Required for preference elicitation (OpenAI)
+# Required for preference elicitation and matchmaking (OpenAI)
 OPENAI_API_KEY=sk-...
 
-# Optional — defaults to gpt-4o-mini
-OPENAI_MODEL=gpt-4o-mini
+# Optional — defaults to gpt-5.4-nano
+OPENAI_MODEL=gpt-5.4-nano
 
-# Optional — higher GitHub API rate limits
+# Optional — higher GitHub API rate limits (recommended for fetch-repos)
 GITHUB_TOKEN=
 ```
+
+## Matchmaking dataset
+
+Before using repository recommendations, generate the local matchmaking dataset:
+
+```bash
+npm run fetch-repos
+```
+
+This fetches 10 beginner-friendly repositories with full README content from the GitHub API and writes them to `logs/matchmaking-repos.json`. The matchmaking API reads this file at runtime.
+
+Run this again whenever you want to refresh the repository catalog. The file is gitignored under `/logs/`.
+
+For a live GitHub catalog (dev only), visit `/dev/repos`. Legacy URLs `/onboarding` and `/repos` redirect to the new routes.
+
+## Preference elicitation and recommendations
+
+1. Start the dev server: `npm run dev`
+2. Click **Get Started** on the home page to begin preference elicitation at `/preference-elicitation`
+3. After completing the conversational flow, you are redirected to `/recommendations`
+4. Matchmaking runs on every visit to `/recommendations` using your stored conversation
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

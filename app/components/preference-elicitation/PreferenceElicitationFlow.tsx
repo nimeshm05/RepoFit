@@ -3,26 +3,30 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 
-import { CompletionScreen } from "@/app/components/onboarding/CompletionScreen";
-import { QuestionStep } from "@/app/components/onboarding/QuestionStep";
+import { QuestionStep } from "@/app/components/preference-elicitation/QuestionStep";
 import {
   getServerSessionSnapshot,
   getSessionSnapshot,
   restartSession,
   saveSession,
   subscribeSession,
-} from "@/lib/preferences/storage";
+} from "@/lib/preference-elicitation/storage";
 import type {
   ElicitationResponse,
   ElicitationSession,
-} from "@/lib/preferences/types";
+} from "@/lib/preference-elicitation/types";
 
 type ActiveQuestionFlowProps = {
   session: ElicitationSession;
   onSessionChange: (session: ElicitationSession) => void;
+  onComplete: () => void;
 };
 
-function ActiveQuestionFlow({ session, onSessionChange }: ActiveQuestionFlowProps) {
+function ActiveQuestionFlow({
+  session,
+  onSessionChange,
+  onComplete,
+}: ActiveQuestionFlowProps) {
   const [answer, setAnswer] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -76,6 +80,7 @@ function ActiveQuestionFlow({ session, onSessionChange }: ActiveQuestionFlowProp
           profile: result.profile,
           flowKey: session.flowKey,
         });
+        onComplete();
         return;
       }
 
@@ -94,7 +99,7 @@ function ActiveQuestionFlow({ session, onSessionChange }: ActiveQuestionFlowProp
   };
 
   if (!session.pendingQuestion) {
-    return <CompletionScreen />;
+    return null;
   }
 
   return (
@@ -124,15 +129,29 @@ export function PreferenceElicitationFlow() {
     }
 
     restartSession();
-    router.replace("/onboarding");
+    router.replace("/preference-elicitation");
   }, [searchParams, router]);
+
+  useEffect(() => {
+    if (searchParams.get("restart") === "1") {
+      return;
+    }
+
+    if (session.status === "complete") {
+      router.replace("/recommendations");
+    }
+  }, [router, searchParams, session.status]);
 
   const persistSession = useCallback((next: ElicitationSession) => {
     saveSession(next);
   }, []);
 
+  const handleComplete = useCallback(() => {
+    router.push("/recommendations");
+  }, [router]);
+
   if (session.status === "complete") {
-    return <CompletionScreen />;
+    return null;
   }
 
   return (
@@ -140,6 +159,7 @@ export function PreferenceElicitationFlow() {
       key={session.flowKey}
       session={session}
       onSessionChange={persistSession}
+      onComplete={handleComplete}
     />
   );
 }

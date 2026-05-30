@@ -6,13 +6,13 @@ This document defines the interaction flow and behavioral rules for the preferen
 
 The purpose of this flow is to collect meaningful user information through a guided and adaptive conversation before repository recommendations are generated.
 
-Refer to `preferenceElicitationStrategy.md` for the complete elicitation strategy and conversational framework.
+Refer to `preference-elicitation-strategy.md` for the complete elicitation strategy and conversational framework.
 
 ---
 
 # Flow Overview
 
-The preference elicitation experience begins immediately after the user enters the onboarding flow.
+The preference elicitation experience begins immediately after the user enters the preference elicitation flow.
 
 The interaction should feel lightweight, conversational, and progressive.
 
@@ -25,7 +25,7 @@ Avoid making the experience feel like a traditional survey or multi-step form.
 When the user clicks the **"Get Started"** button on the home page:
 
 * transition into the preference elicitation flow
-* display the first question defined in `preferenceElicitationStrategy.md`
+* display the first question defined in `preference-elicitation-strategy.md`
 * initialize a new conversation state for storing responses
 
 The interaction begins with the opening question and progresses adaptively from there.
@@ -95,7 +95,7 @@ The model determines whether additional questions are needed.
 
 Question generation must follow the strategy defined in:
 
-`preferenceElicitationStrategy.md`
+`preference-elicitation-strategy.md`
 
 The model should:
 
@@ -120,20 +120,20 @@ The model may finish earlier if sufficient information has already been collecte
 
 # Step 6 — Completion State
 
-When the model determines that elicitation is complete:
+When the model determines that preference elicitation is complete:
 
-* stop question generation
-* transition to a completion screen
+* Stop question generation
+* Finalize the preference elicitation conversation
+* Transition into repository matchmaking
 
-Display:
+Do not transition to a temporary completion screen.
+
+Do not display:
 
 **Completed.**
 
-This is a temporary completion state.
-
-Recommendation generation and downstream flows will be introduced in future iterations.
-
-The current milestone is limited to successfully completing preference elicitation.
+Instead, immediately begin repository recommendation generation.
+Reference the matchmaking-engine.md file.
 
 ---
 
@@ -185,7 +185,7 @@ The model must receive:
 * all prior user responses
 * question history
 * relevant system instructions
-* `preferenceElicitationStrategy.md`
+* `preference-elicitation-strategy.md`
 
 Do not send only the most recent answer.
 

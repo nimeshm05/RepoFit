@@ -1,9 +1,9 @@
-import { MainContainer } from "./MainContainer";
+import { HomeContent } from "./HomeContent";
 
 export function HomeScreen() {
   return (
     <div className="min-h-screen bg-background pt-[200px] px-3">
-      <MainContainer />
+      <HomeContent />
     </div>
   );
 }

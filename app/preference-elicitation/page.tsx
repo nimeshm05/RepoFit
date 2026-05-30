@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { PreferenceElicitationFlow } from "@/app/components/onboarding/PreferenceElicitationFlow";
+import { PreferenceElicitationFlow } from "@/app/components/preference-elicitation/PreferenceElicitationFlow";
 
 export default function OnboardingPage() {
   return (
