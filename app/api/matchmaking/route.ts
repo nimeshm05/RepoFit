@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { MatchmakingDatasetError } from "@/lib/matchmaking/loadRepoDataset";
-import { runMatchmaking } from "@/lib/matchmaking/runMatchmaking";
+import { MatchmakingDatasetError } from "@/lib/matchmaking/load-repo-dataset";
+import { runMatchmaking } from "@/lib/matchmaking/run-matchmaking";
 import type { MatchmakingRequest } from "@/lib/matchmaking/types";
 import type { ElicitationTurn } from "@/lib/preference-elicitation/types";
 import { isValidAnswer } from "@/lib/preference-elicitation/validation";

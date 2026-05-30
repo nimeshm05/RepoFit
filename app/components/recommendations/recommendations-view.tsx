@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { RepoCard } from "@/app/components/repositories/RepoCard";
-import { Text } from "@/app/components/ui/Text";
+import { RepoCard } from "@/app/components/repositories/repo-card";
+import { Text } from "@/app/components/ui/text";
 import { buttonVariants } from "@/lib/button-variants";
 import { cn } from "@/lib/cn";
 import type { MatchmakingResult } from "@/lib/matchmaking/types";

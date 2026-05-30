@@ -1,4 +1,4 @@
-import { HomeContent } from "./HomeContent";
+import { HomeContent } from "./home-content";
 
 export function HomeScreen() {
   return (

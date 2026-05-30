@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button } from "@/app/components/ui/Button";
-import { Text } from "@/app/components/ui/Text";
-import { Textarea } from "@/app/components/ui/Textarea";
+import { Button } from "@/app/components/ui/button";
+import { Text } from "@/app/components/ui/text";
+import { Textarea } from "@/app/components/ui/textarea";
 import { isValidAnswer } from "@/lib/preference-elicitation/validation";
 
 type QuestionStepProps = {

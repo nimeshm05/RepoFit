@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "fetch-repos": "tsx scripts/fetchMatchmakingRepos.ts"
+    "fetch-repos": "tsx scripts/fetch-matchmaking-repos.ts"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

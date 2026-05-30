@@ -1,6 +1,6 @@
 import { githubFetch } from "./client";
-import { getRepoReadme } from "./getRepoReadme";
-import { logGitHubApiResponse } from "./logApiResponse";
+import { getRepoReadme } from "./get-repo-readme";
+import { logGitHubApiResponse } from "./log-api-response";
 import type {
   GitHubSearchRepoItem,
   GitHubSearchResponse,

@@ -1,6 +1,6 @@
-import { Card } from "@/app/components/ui/Card";
-import { Text } from "@/app/components/ui/Text";
-import { truncateReadme } from "@/lib/github/getRepoReadme";
+import { Card } from "@/app/components/ui/card";
+import { Text } from "@/app/components/ui/text";
+import { truncateReadme } from "@/lib/github/get-repo-readme";
 import type { RepoCategory, RepoSummary } from "@/lib/github/types";
 
 function formatUpdatedDate(isoDate: string): string {

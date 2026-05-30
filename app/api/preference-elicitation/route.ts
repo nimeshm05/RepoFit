@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { runElicitationStep } from "@/lib/preference-elicitation/runElicitationStep";
+import { runElicitationStep } from "@/lib/preference-elicitation/run-elicitation-step";
 import type { ElicitationRequest, ElicitationTurn } from "@/lib/preference-elicitation/types";
 import { isValidAnswer } from "@/lib/preference-elicitation/validation";
 

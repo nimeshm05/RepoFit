@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { buttonVariants } from "@/lib/button-variants";
-import { Text } from "@/app/components/ui/Text";
+import { Text } from "@/app/components/ui/text";
 import { cn } from "@/lib/cn";
 
 export function HomeContent() {

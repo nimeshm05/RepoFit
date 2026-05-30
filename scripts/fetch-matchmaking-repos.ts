@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { getBeginnerFriendlyRepos } from "../lib/github/getBeginnerFriendlyRepos";
+import { getBeginnerFriendlyRepos } from "../lib/github/get-beginner-friendly-repos";
 import { MATCHMAKING_REPO_COUNT } from "../lib/matchmaking/constants";
 import type { RepoSummary } from "../lib/github/types";
 

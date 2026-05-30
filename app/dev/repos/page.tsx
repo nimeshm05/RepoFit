@@ -1,7 +1,7 @@
-import { getBeginnerFriendlyRepos } from "@/lib/github/getBeginnerFriendlyRepos";
+import { getBeginnerFriendlyRepos } from "@/lib/github/get-beginner-friendly-repos";
 
-import { RepoCard } from "@/app/components/repositories/RepoCard";
-import { Text } from "@/app/components/ui/Text";
+import { RepoCard } from "@/app/components/repositories/repo-card";
+import { Text } from "@/app/components/ui/text";
 
 export default async function ReposPage() {
   const repos = await getBeginnerFriendlyRepos();

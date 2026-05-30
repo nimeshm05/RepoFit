@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 
-import { QuestionStep } from "@/app/components/preference-elicitation/QuestionStep";
+import { QuestionStep } from "@/app/components/preference-elicitation/question-step";
 import {
   getServerSessionSnapshot,
   getSessionSnapshot,

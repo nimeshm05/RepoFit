@@ -4,8 +4,8 @@ import type { RepoSummary } from "@/lib/github/types";
 import { DEFAULT_OPENAI_MODEL } from "@/lib/preference-elicitation/constants";
 import type { ElicitationTurn } from "@/lib/preference-elicitation/types";
 
-import { buildMatchmakingSystemPrompt } from "./buildSystemPrompt";
-import { loadRepoDataset } from "./loadRepoDataset";
+import { buildMatchmakingSystemPrompt } from "./build-system-prompt";
+import { loadRepoDataset } from "./load-repo-dataset";
 import type {
   MatchmakingResult,
   RecommendedRepo,

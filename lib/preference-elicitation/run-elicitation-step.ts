@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-import { buildSystemPrompt } from "@/lib/preference-elicitation/buildSystemPrompt";
+import { buildSystemPrompt } from "@/lib/preference-elicitation/build-system-prompt";
 import { DEFAULT_OPENAI_MODEL, MAX_QUESTIONS } from "@/lib/preference-elicitation/constants";
 import type {
   ElicitationResponse,
