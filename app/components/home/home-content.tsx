@@ -2,27 +2,35 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { buttonVariants } from "@/lib/button-variants";
-import { Text } from "@/app/components/ui/text";
+import { Text } from "@/app/components/ui/Text";
 import { cn } from "@/lib/cn";
 
 export function HomeContent() {
   return (
-    <div className="flex w-full flex-col items-start gap-10 p-2.5">
-      <div className="flex w-full flex-col items-start gap-20">
-        <div className="flex w-full flex-col items-start gap-2">
+    <div className="mx-auto flex min-h-[70vh] w-full max-w-[540px] flex-col items-center justify-center gap-10 text-center">
+      <div className="flex w-full flex-col items-center gap-20">
+        <div className="flex w-full flex-col items-center gap-2">
           <Text as="h1" size="5xl">
             RepoFit
           </Text>
-          <Text size="2xl">Find open-source projects that fit you.</Text>
+          <Text size="2xl" className="text-neutral-600">
+            Find open-source projects that fit you.
+          </Text>
         </div>
 
-        <Text>
+        <Text className="text-neutral-500">
           Tell us about your skills, interests, and goals. We&apos;ll match you
           with repositories where you can realistically contribute and grow.
         </Text>
       </div>
 
-      <Link href="/preference-elicitation?restart=1" className={cn(buttonVariants())}>
+      <Link
+        href="/chat?restart=1"
+        className={cn(
+          buttonVariants(),
+          "rounded-full px-3.5 py-2",
+        )}
+      >
         Get Started
         <Image
           src="/icons/arrow-right.svg"

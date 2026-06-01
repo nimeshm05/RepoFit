@@ -1,11 +1,5 @@
-import { Suspense } from "react";
+import { redirect } from "next/navigation";
 
-import { PreferenceElicitationFlow } from "@/app/components/preference-elicitation/preference-elicitation-flow";
-
-export default function OnboardingPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-background" />}>
-      <PreferenceElicitationFlow />
-    </Suspense>
-  );
+export default function PreferenceElicitationPage() {
+  redirect("/chat");
 }

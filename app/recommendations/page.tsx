@@ -1,5 +1,5 @@
-import { RecommendationsView } from "@/app/components/recommendations/recommendations-view";
+import { redirect } from "next/navigation";
 
 export default function RecommendationsPage() {
-  return <RecommendationsView />;
+  redirect("/chat");
 }

@@ -2,40 +2,62 @@
 
 /* Figma tokens: neutral/*, button/*, heading1, subtitle, body, question */
 :root {
-  --background: #f5f5f5;
+  --background: #fafafa;
   --foreground: #171717;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
   --neutral-400: #a3a3a3;
   --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --accent-blue-background: #eaf4ff;
+  --accent-blue-foreground: #2679f3;
   --muted: var(--neutral-500);
   --muted-foreground: #777777;
+  --bg-color: #fafafa;
   --button-default-bg-color: #171717;
   --button-disabled-bg-color: #d4d4d4;
   --button-hover-bg-color: #404040;
   --button-default-text-color: #fafafa;
+  --button-secondary-default-bg-color: #f5f5f5;
+  --button-secondary-default-text-color: #171717;
   --primary: var(--button-default-bg-color);
   --primary-foreground: var(--button-default-text-color);
   --surface: #ffffff;
-  --border: #e5e5e5;
+  --border: var(--neutral-200);
 
   --heading1-size: 24px;
   --subtitle-size: 16px;
-  --body-size: 14px;
+  --body-size: 16px;
   --body-line-height: 1.44;
-  --question-size: 14px;
+  --question-size: 16px;
   --question-line-height: 20px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
   --color-neutral-400: var(--neutral-400);
   --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-accent-blue-background: var(--accent-blue-background);
+  --color-accent-blue-foreground: var(--accent-blue-foreground);
+  --color-bg-color: var(--bg-color);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-hover: var(--button-hover-bg-color);
   --color-primary-disabled: var(--button-disabled-bg-color);
+  --color-button-primary-default-bg-color: var(--button-default-bg-color);
+  --color-button-primary-default-text-color: var(--button-default-text-color);
+  --color-button-secondary-default-bg-color: var(--button-secondary-default-bg-color);
+  --color-button-secondary-default-text-color: var(--button-secondary-default-text-color);
   --color-surface: var(--surface);
   --color-border: var(--border);
 
@@ -63,6 +85,15 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Hide Next.js dev overlay portal in development */

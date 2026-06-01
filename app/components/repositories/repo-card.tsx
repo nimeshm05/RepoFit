@@ -1,5 +1,5 @@
-import { Card } from "@/app/components/ui/card";
-import { Text } from "@/app/components/ui/text";
+import { Card } from "@/app/components/ui/Card";
+import { Text } from "@/app/components/ui/Text";
 import { truncateReadme } from "@/lib/github/get-repo-readme";
 import type { RepoCategory, RepoSummary } from "@/lib/github/types";
 
@@ -31,11 +31,12 @@ type RepoRecommendationDetails = {
 type RepoCardProps = {
   repo: RepoSummary;
   recommendation?: RepoRecommendationDetails;
+  className?: string;
 };
 
-export function RepoCard({ repo, recommendation }: RepoCardProps) {
+export function RepoCard({ repo, recommendation, className }: RepoCardProps) {
   return (
-    <Card>
+    <Card className={className}>
       <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2">
           {recommendation && (
