@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button } from "@/app/components/ui/button";
-import { Text } from "@/app/components/ui/text";
-import { Textarea } from "@/app/components/ui/textarea";
-import { isValidAnswer } from "@/lib/preference-elicitation/validation";
+import { Button } from "@/app/components/ui/Button";
+import { Text } from "@/app/components/ui/Text";
+import { Textarea } from "@/app/components/ui/Textarea";
+import { isValidAnswer } from "@/lib/preferences/validation";
 
 type QuestionStepProps = {
   question: string;
@@ -33,10 +33,10 @@ export function QuestionStep({
         <div className="flex shrink-0 flex-col gap-5">
           <Link
             href="/"
-            className="inline-flex size-9 shrink-0 items-center justify-center"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-border"
             aria-label="Close and return home"
           >
-            <Image src="/icons/close.svg" alt="" width={36} height={36} aria-hidden />
+            <Image src="/icons/close.svg" alt="" width={20} height={20} aria-hidden />
           </Link>
           <Text size="question">{question}</Text>
         </div>
@@ -63,9 +63,9 @@ export function QuestionStep({
         <Image
           src="/icons/arrow-right.svg"
           alt=""
-          width={14}
-          height={14}
-          className="size-3.5"
+          width={20}
+          height={20}
+          className="size-5"
           aria-hidden
         />
       </Button>

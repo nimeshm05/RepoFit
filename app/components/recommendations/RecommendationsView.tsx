@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { RepoCard } from "@/app/components/repositories/repo-card";
-import { Text } from "@/app/components/ui/text";
+import { RepoCard } from "@/app/components/repos/RepoCard";
+import { Text } from "@/app/components/ui/Text";
 import { buttonVariants } from "@/lib/button-variants";
 import { cn } from "@/lib/cn";
 import type { MatchmakingResult } from "@/lib/matchmaking/types";
-import { getSessionSnapshot } from "@/lib/preference-elicitation/storage";
+import { getSessionSnapshot } from "@/lib/preferences/storage";
 
 type ViewState =
   | { status: "loading" }
@@ -25,7 +25,7 @@ export function RecommendationsView() {
     const session = getSessionSnapshot();
 
     if (session.status !== "complete" || session.turns.length === 0) {
-      router.replace("/preference-elicitation");
+      router.replace("/onboarding");
       return;
     }
 
@@ -142,14 +142,14 @@ export function RecommendationsView() {
 
 function StartAgainLink() {
   return (
-    <Link href="/preference-elicitation?restart=1" className={cn(buttonVariants())}>
+    <Link href="/onboarding?restart=1" className={cn(buttonVariants())}>
       Start again
       <Image
         src="/icons/arrow-right.svg"
         alt=""
-        width={14}
-        height={14}
-        className="size-3.5"
+        width={20}
+        height={20}
+        className="size-5"
         aria-hidden
       />
     </Link>

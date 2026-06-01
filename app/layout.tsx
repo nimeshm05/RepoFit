@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { figtree } from "@/lib/fonts";
+import { inter } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${figtree.variable} ${figtree.className} h-full antialiased`}
+      className={`${inter.variable} ${inter.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
         <div className="mx-auto w-full max-w-[500px]">{children}</div>

@@ -2,14 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { buttonVariants } from "@/lib/button-variants";
-import { Text } from "@/app/components/ui/text";
+import { Text } from "@/app/components/ui/Text";
 import { cn } from "@/lib/cn";
 
-export function HomeContent() {
+export function MainContainer() {
   return (
     <div className="flex w-full flex-col items-start gap-10 p-2.5">
       <div className="flex w-full flex-col items-start gap-20">
-        <div className="flex w-full flex-col items-start gap-2">
+        <div className="flex w-full flex-col items-start gap-0">
           <Text as="h1" size="5xl">
             RepoFit
           </Text>
@@ -22,14 +22,14 @@ export function HomeContent() {
         </Text>
       </div>
 
-      <Link href="/preference-elicitation?restart=1" className={cn(buttonVariants())}>
+      <Link href="/onboarding?restart=1" className={cn(buttonVariants())}>
         Get Started
         <Image
           src="/icons/arrow-right.svg"
           alt=""
-          width={14}
-          height={14}
-          className="size-3.5"
+          width={20}
+          height={20}
+          className="size-5"
           aria-hidden
         />
       </Link>

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Figma tokens: neutral/*, button/*, heading1, subtitle, body, question */
 :root {
   --background: #f5f5f5;
   --foreground: #171717;
@@ -16,10 +17,12 @@
   --surface: #ffffff;
   --border: #e5e5e5;
 
-  /* Typography — Figma: heading1, subtitle, body */
-  --heading1-size: 32px;
-  --subtitle-size: 20px;
-  --body-size: 16px;
+  --heading1-size: 24px;
+  --subtitle-size: 16px;
+  --body-size: 14px;
+  --body-line-height: 1.44;
+  --question-size: 14px;
+  --question-line-height: 20px;
 }
 
 @theme inline {
@@ -36,16 +39,18 @@
   --color-surface: var(--surface);
   --color-border: var(--border);
 
-  --font-sans: var(--font-figtree);
+  --font-sans: var(--font-inter);
 
   --text-5xl: var(--heading1-size);
   --text-5xl--line-height: normal;
   --text-2xl: var(--subtitle-size);
   --text-2xl--line-height: normal;
   --text-lg: var(--body-size);
-  --text-lg--line-height: normal;
+  --text-lg--line-height: var(--body-line-height);
   --text-base: var(--body-size);
-  --text-base--line-height: normal;
+  --text-base--line-height: var(--body-line-height);
+  --text-sm: var(--body-size);
+  --text-sm--line-height: var(--body-line-height);
 
   --radius-button: 12px;
   --radius-card: 16px;
