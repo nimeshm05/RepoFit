@@ -33,6 +33,8 @@
   --body-line-height: 1.44;
   --question-size: 16px;
   --question-line-height: 20px;
+  --chat-line-height-unit: 4.8px;
+  --chat-line-height: calc(var(--chat-line-height-unit) * 4);
 }
 
 @theme inline {
@@ -76,6 +78,8 @@
 
   --radius-button: 12px;
   --radius-card: 16px;
+
+  --line-height-chat: calc(4.8px * 4);
 }
 
 html {

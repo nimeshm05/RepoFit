@@ -10,12 +10,32 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/onboarding",
-        destination: "/preference-elicitation",
+        destination: "/chat",
         permanent: false,
       },
       {
         source: "/onboarding/:path*",
-        destination: "/preference-elicitation/:path*",
+        destination: "/chat",
+        permanent: false,
+      },
+      {
+        source: "/preference-elicitation",
+        destination: "/chat",
+        permanent: false,
+      },
+      {
+        source: "/preference-elicitation/:path*",
+        destination: "/chat",
+        permanent: false,
+      },
+      {
+        source: "/recommendations",
+        destination: "/chat",
+        permanent: false,
+      },
+      {
+        source: "/recommendations/:path*",
+        destination: "/chat",
         permanent: false,
       },
       {

@@ -6,11 +6,31 @@ import { cn } from "@/lib/cn";
 
 type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   autoResize?: boolean;
+  minContentHeight?: number;
+  maxContentHeight?: number;
+  onLayoutChange?: (layout: { height: number; isMultiline: boolean }) => void;
 };
 
-function resizeTextarea(textarea: HTMLTextAreaElement) {
+const SINGLE_LINE_HEIGHT = 24;
+
+function resizeTextarea(
+  textarea: HTMLTextAreaElement,
+  minContentHeight?: number,
+  maxContentHeight?: number,
+) {
   textarea.style.height = "auto";
-  textarea.style.height = `${textarea.scrollHeight}px`;
+  let nextHeight = textarea.scrollHeight;
+
+  if (minContentHeight !== undefined) {
+    nextHeight = Math.max(nextHeight, minContentHeight);
+  }
+  if (maxContentHeight !== undefined) {
+    nextHeight = Math.min(nextHeight, maxContentHeight);
+  }
+
+  textarea.style.height = `${nextHeight}px`;
+  textarea.style.overflowY =
+    textarea.scrollHeight > nextHeight ? "auto" : "hidden";
 }
 
 export function Textarea({
@@ -19,9 +39,22 @@ export function Textarea({
   value,
   onChange,
   autoResize = true,
+  minContentHeight,
+  maxContentHeight,
+  onLayoutChange,
   ...props
 }: TextareaProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const applyResize = (textarea: HTMLTextAreaElement) => {
+    resizeTextarea(textarea, minContentHeight, maxContentHeight);
+    onLayoutChange?.({
+      height: textarea.offsetHeight,
+      isMultiline:
+        textarea.value.includes("\n") ||
+        textarea.scrollHeight > SINGLE_LINE_HEIGHT,
+    });
+  };
 
   useLayoutEffect(() => {
     if (!autoResize) {
@@ -30,9 +63,11 @@ export function Textarea({
 
     const textarea = textareaRef.current;
     if (textarea) {
-      resizeTextarea(textarea);
+      applyResize(textarea);
     }
-  }, [value, autoResize]);
+    // applyResize is stable for a given render; onLayoutChange may change per parent
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, autoResize, minContentHeight, maxContentHeight, onLayoutChange]);
 
   return (
     <textarea
@@ -42,7 +77,7 @@ export function Textarea({
       onChange={(event) => {
         onChange?.(event);
         if (autoResize && textareaRef.current) {
-          resizeTextarea(textareaRef.current);
+          applyResize(textareaRef.current);
         }
       }}
       className={cn(
