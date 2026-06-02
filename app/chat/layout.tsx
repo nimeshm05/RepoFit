@@ -4,6 +4,6 @@ export default function ChatLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="fixed inset-0 overflow-hidden bg-background">{children}</div>
+    <div className="fixed inset-0 min-h-0 bg-background">{children}</div>
   );
 }

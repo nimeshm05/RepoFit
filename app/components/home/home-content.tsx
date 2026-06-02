@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
 
 export function HomeContent() {
   return (
-    <div className="mx-auto flex min-h-[70vh] w-full max-w-[540px] flex-col items-center justify-center gap-10 text-center">
+    <div className="mx-auto flex min-h-home w-full max-w-home flex-col items-center justify-center gap-10 text-center">
       <div className="flex w-full flex-col items-center gap-20">
         <div className="flex w-full flex-col items-center gap-2">
           <Text as="h1" size="5xl">

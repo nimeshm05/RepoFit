@@ -8,7 +8,7 @@ const textVariants = cva("", {
     size: {
       "5xl": "text-5xl font-semibold leading-normal text-foreground",
       question:
-        "text-[18px] font-semibold leading-[1.6] text-foreground [word-break:break-word]",
+        "text-question font-semibold text-foreground [word-break:break-word]",
       "2xl": "text-2xl font-normal leading-normal text-muted-foreground",
       lg: "text-lg font-normal leading-normal text-muted",
       sm: "text-sm font-normal leading-normal text-muted",

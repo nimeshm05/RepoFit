@@ -81,7 +81,7 @@ export function Textarea({
         }
       }}
       className={cn(
-        "w-full resize-none border-0 bg-transparent text-base font-normal leading-[1.44] text-foreground placeholder:text-neutral-400 focus:outline-none",
+        "w-full resize-none border-0 bg-transparent text-base font-normal leading-body text-foreground placeholder:text-neutral-400 focus:outline-none",
         autoResize ? "overflow-hidden" : "min-h-0 overflow-y-auto",
         className,
       )}

@@ -1,12 +1,16 @@
-import { Bot } from "lucide-react";
+import Image from "next/image";
 
+/** Figma node 2049:1029 — assistant avatar (40×40) */
 export function BotAvatar() {
   return (
-    <div
-      className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent-blue-background"
-      aria-hidden
-    >
-      <Bot className="size-[22px] text-accent-blue-foreground" strokeWidth={2} />
+    <div className="relative size-avatar shrink-0" aria-hidden>
+      <Image
+        src="/icons/assistant-avatar.svg"
+        alt=""
+        width={40}
+        height={40}
+        className="size-avatar"
+      />
     </div>
   );
 }

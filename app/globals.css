@@ -4,6 +4,7 @@
 :root {
   --background: #fafafa;
   --foreground: #171717;
+  --neutral-100: #f5f5f5;
   --neutral-200: #e5e5e5;
   --neutral-300: #d4d4d4;
   --neutral-400: #a3a3a3;
@@ -15,7 +16,7 @@
   --accent-blue-foreground: #2679f3;
   --muted: var(--neutral-500);
   --muted-foreground: #777777;
-  --bg-color: #fafafa;
+  --bg-color: #ffffff;
   --button-default-bg-color: #171717;
   --button-disabled-bg-color: #d4d4d4;
   --button-hover-bg-color: #404040;
@@ -27,19 +28,50 @@
   --surface: #ffffff;
   --border: var(--neutral-200);
 
+  /* Typography */
   --heading1-size: 24px;
   --subtitle-size: 16px;
   --body-size: 16px;
   --body-line-height: 1.44;
   --question-size: 16px;
   --question-line-height: 20px;
+  --question-display-size: 18px;
+  --question-display-line-height: 1.6;
+  --assistant-size: 14px;
+  --assistant-line-height: 20px;
   --chat-line-height-unit: 4.8px;
   --chat-line-height: calc(var(--chat-line-height-unit) * 4);
+
+  /* Layout */
+  --layout-chat-max-width: 600px;
+  --layout-home-max-width: 540px;
+  --layout-home-min-height: 70vh;
+
+  /* Spacing */
+  --space-turn-gap: 80px;
+  --space-thread-top: 24px;
+  --space-in-turn: 20px;
+  --space-assistant-block: 12px;
+  --space-header-gap: 10px;
+  --space-send-button: 11px;
+
+  /* User message bubble (Figma 2049:1227) */
+  --user-message-max-width: 460px;
+  --user-message-padding-x: 20px;
+  --user-message-padding-y: 16px;
+
+  /* Components */
+  --avatar-size: 24px;
+  --tooltip-width: 292px;
+  --shadow-tooltip:
+    0px 1px 0.5px rgba(0, 0, 0, 0.05), 0px 4px 3px rgba(0, 0, 0, 0.04),
+    0px 24px 34px rgba(0, 0, 0, 0.05), 0px 2px 1.5px rgba(0, 0, 0, 0.04);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-neutral-100: var(--neutral-100);
   --color-neutral-200: var(--neutral-200);
   --color-neutral-300: var(--neutral-300);
   --color-neutral-400: var(--neutral-400);
@@ -63,7 +95,9 @@
   --color-surface: var(--surface);
   --color-border: var(--border);
 
-  --font-sans: var(--font-inter);
+  --font-sans:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
 
   --text-5xl: var(--heading1-size);
   --text-5xl--line-height: normal;
@@ -75,11 +109,39 @@
   --text-base--line-height: var(--body-line-height);
   --text-sm: var(--body-size);
   --text-sm--line-height: var(--body-line-height);
+  --text-question: var(--question-display-size);
+  --text-question--line-height: var(--question-display-line-height);
+  --text-assistant: var(--assistant-size);
+  --text-assistant--line-height: var(--assistant-line-height);
+
+  --leading-body: var(--body-line-height);
 
   --radius-button: 12px;
   --radius-card: 16px;
 
   --line-height-chat: calc(4.8px * 4);
+
+  --spacing-turn-gap: var(--space-turn-gap);
+  --spacing-thread-top: var(--space-thread-top);
+  --spacing-in-turn: var(--space-in-turn);
+  --spacing-assistant-block: var(--space-assistant-block);
+  --spacing-header-gap: var(--space-header-gap);
+  --spacing-send-button: var(--space-send-button);
+  --spacing-user-message-x: var(--user-message-padding-x);
+  --spacing-user-message-y: var(--user-message-padding-y);
+
+  /* --container-* → max-w-* (not --width-*, which only creates w-*) */
+  --container-chat: var(--layout-chat-max-width);
+  --container-home: var(--layout-home-max-width);
+  --container-user-message: var(--user-message-max-width);
+
+  --spacing-tooltip: var(--tooltip-width);
+
+  --min-height-home: var(--layout-home-min-height);
+
+  --size-avatar: var(--avatar-size);
+
+  --shadow-tooltip: var(--shadow-tooltip);
 }
 
 html {

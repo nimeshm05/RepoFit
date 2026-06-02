@@ -29,13 +29,13 @@ export function ChatRecommendations({ recommendationsState }: ChatRecommendation
   }
 
   return (
-    <div className="flex w-full flex-col gap-3">
+    <div className="flex w-full flex-col gap-assistant-block">
       <BotAvatar />
-      <div className="flex w-full flex-col gap-5">
-        <p className="w-full break-words text-sm leading-5 text-accent-blue-foreground">
+      <div className="flex w-full flex-col gap-in-turn">
+        <p className="w-full break-words text-sm leading-5 text-neutral-900">
           Here’s a list of repositories that I think you might like:
         </p>
-        <div className="flex w-full flex-col gap-5">
+        <div className="flex w-full flex-col gap-in-turn">
           {recommendationsState.data.recommendations.map((repo, index) => (
             <div
               key={repo.id}

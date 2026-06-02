@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { inter } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,7 +16,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${inter.className} h-full antialiased`}
+      className="h-full antialiased"
     >
       <body className="min-h-full font-sans">{children}</body>
     </html>

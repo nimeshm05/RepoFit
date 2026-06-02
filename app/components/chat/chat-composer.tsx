@@ -7,9 +7,9 @@ import { Textarea } from "@/app/components/ui/Textarea";
 import { cn } from "@/lib/cn";
 
 const COMPOSER_MIN_HEIGHT = 62;
-const COMPOSER_MAX_HEIGHT = 160;
+const COMPOSER_MAX_HEIGHT = 320;
 /** Max scrollable textarea height inside padded composer (160px frame − 24px py − ~38px button). */
-const TEXTAREA_MAX_CONTENT_HEIGHT = 98;
+const TEXTAREA_MAX_CONTENT_HEIGHT = 258;
 
 type ChatComposerProps = {
   value: string;
@@ -40,7 +40,7 @@ export function ChatComposer({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "flex w-full shrink-0 overflow-hidden rounded-[12px] border border-neutral-200 bg-bg-color py-3 pl-5 pr-3",
+        "flex w-full shrink-0 overflow-hidden rounded-[12px] border border-neutral-200 bg-surface py-3 pl-5 pr-3",
         isMultiline ? "items-start gap-3" : "items-center gap-2.5",
       )}
       style={{

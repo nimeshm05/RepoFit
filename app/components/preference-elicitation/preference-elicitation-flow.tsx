@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   useCallback,
   useEffect,
+  useRef,
   useState,
   useSyncExternalStore,
 } from "react";
@@ -53,8 +54,49 @@ export function PreferenceElicitationFlow() {
       session.status === "complete" ? { status: "loading" } : { status: "idle" },
     );
   const [hasStartedOverride, setHasStartedOverride] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const hasStarted =
     hasStartedOverride || session.turns.length > 0 || session.status === "complete";
+
+  const recommendationCount =
+    recommendationsState.status === "success"
+      ? recommendationsState.data.recommendations.length
+      : 0;
+
+  const scrollToBottom = useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (!container) {
+      return;
+    }
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: "smooth",
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!hasStarted) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scrollToBottom();
+      });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [
+    hasStarted,
+    session.turns.length,
+    session.pendingQuestion,
+    isSubmittingTurn,
+    turnError,
+    recommendationsState.status,
+    recommendationCount,
+    scrollToBottom,
+  ]);
 
   const showOpeningGreeting =
     session.turns.length === 0 &&
@@ -226,30 +268,33 @@ export function PreferenceElicitationFlow() {
   }, [router]);
 
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-bg-color">
+    <div className="flex h-full min-h-0 flex-col bg-bg-color">
       <ChatHeader onRestart={handleRestart} />
 
-      <div className="mx-auto flex h-full min-h-0 w-full max-w-[600px] flex-1 flex-col overflow-hidden px-4">
-        <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-y-contain">
+      <div className="mx-auto flex h-full min-h-0 w-full max-w-chat flex-1 flex-col overflow-hidden px-4">
+        <div
+          ref={scrollContainerRef}
+          className="scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
+        >
           {!hasStarted ? (
             <div className="flex h-full w-full flex-col items-center justify-center gap-6 text-center">
               <p className="text-xl font-semibold text-neutral-900">
                 Find open-source projects that fit you.
               </p>
-              <p className="text-base leading-[1.44] text-neutral-500">
+              <p className="text-base leading-body text-neutral-500">
                 Tell us about your skills, interests, and goals. We&apos;ll match you
                 with repositories where you can realistically contribute and grow.
               </p>
               <button
                 type="button"
-                className="inline-flex items-center rounded-button bg-button-primary-default-bg-color px-3.5 py-2 text-base leading-[1.44] text-button-primary-default-text-color"
+                className="inline-flex items-center rounded-button bg-button-primary-default-bg-color px-3.5 py-2 text-base leading-body text-button-primary-default-text-color"
                 onClick={() => setHasStartedOverride(true)}
               >
                 Start
               </button>
             </div>
           ) : (
-            <div className="flex w-full flex-col gap-13 pt-6">
+            <div className="flex w-full flex-col gap-turn-gap pt-thread-top">
               {session.turns.map((turn, index) => (
                 <ConversationTurn key={`turn-${index}`} turn={turn} />
               ))}
