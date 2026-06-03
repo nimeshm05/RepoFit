@@ -15,6 +15,7 @@ const textVariants = cva("", {
     },
     weight: {
       normal: "font-normal",
+      medium: "font-medium",
       semibold: "font-semibold",
     },
   },
@@ -28,7 +29,10 @@ type TextProps<T extends ElementType = "p"> = {
   children: ReactNode;
   className?: string;
 } & VariantProps<typeof textVariants> &
-  Omit<React.ComponentPropsWithoutRef<T>, "as" | "children" | "className">;
+  Omit<
+    React.ComponentPropsWithoutRef<T>,
+    "as" | "children" | "className" | "weight"
+  >;
 
 export function Text<T extends ElementType = "p">({
   as,

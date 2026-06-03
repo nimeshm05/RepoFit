@@ -3,6 +3,7 @@
 import { ArrowUp } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
+import { IconButton } from "@/app/components/ui/IconButton";
 import { Textarea } from "@/app/components/ui/Textarea";
 import { cn } from "@/lib/cn";
 
@@ -64,14 +65,14 @@ export function ChatComposer({
           isMultiline && "flex self-stretch flex-col justify-end",
         )}
       >
-        <button
+        <IconButton
           type="submit"
+          variant="primary"
           disabled={!canSend}
           aria-label="Send response"
-          className="inline-flex items-center justify-center rounded-full p-[11px] text-button-primary-default-text-color disabled:bg-neutral-300 enabled:bg-button-primary-default-bg-color"
         >
-          <ArrowUp className="size-4" strokeWidth={2} aria-hidden />
-        </button>
+          <ArrowUp strokeWidth={2} aria-hidden />
+        </IconButton>
       </div>
     </form>
   );

@@ -11,10 +11,12 @@ import { Tooltip } from "@/app/components/ui/Tooltip";
 export const REPOFIT_INFO_TOOLTIP =
   "RepoFit helps you discover GitHub projects that match your skills, interests, and contribution goals.";
 
-type HeaderProps = {
+export type HeaderProps = {
   title?: string;
   /** Pass `null` to hide the info button. */
   infoTooltip?: string | null;
+  /** Replaces the title + info control (e.g. Figma 2063:1572 mode tabs). */
+  leading?: ReactNode;
   onRestart?: () => void;
   /** Custom trailing control; overrides `onRestart` when provided. */
   action?: ReactNode;
@@ -25,6 +27,7 @@ type HeaderProps = {
 export function Header({
   title = "RepoFit",
   infoTooltip = REPOFIT_INFO_TOOLTIP,
+  leading,
   onRestart,
   action,
   className,
@@ -48,23 +51,27 @@ export function Header({
         )}
       >
         <div className="flex min-w-0 flex-1 items-center gap-header-gap">
-          <span className="shrink-0 text-lg font-semibold text-foreground">{title}</span>
-          {infoTooltip ? (
-            <Tooltip content={infoTooltip}>
-              <button
-                type="button"
-                className="inline-flex shrink-0 items-center justify-center text-foreground"
-                aria-label={`About ${title}`}
-              >
-                <BadgeInfo
-                  className="size-4"
-                  strokeWidth={2.5}
-                  absoluteStrokeWidth
-                  aria-hidden
-                />
-              </button>
-            </Tooltip>
-          ) : null}
+          {leading ?? (
+            <>
+              <span className="shrink-0 text-lg font-semibold text-foreground">{title}</span>
+              {infoTooltip ? (
+                <Tooltip content={infoTooltip}>
+                  <button
+                    type="button"
+                    className="inline-flex shrink-0 items-center justify-center text-foreground"
+                    aria-label={`About ${title}`}
+                  >
+                    <BadgeInfo
+                      className="size-4"
+                      strokeWidth={2.5}
+                      absoluteStrokeWidth
+                      aria-hidden
+                    />
+                  </button>
+                </Tooltip>
+              ) : null}
+            </>
+          )}
         </div>
         {trailingAction}
       </div>

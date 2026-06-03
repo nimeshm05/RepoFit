@@ -4,14 +4,21 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   useSyncExternalStore,
 } from "react";
 
+import {
+  AssistantStatusRow,
+  THINKING_STATUS_MESSAGE,
+} from "@/app/components/chat/assistant-status-row";
 import { ChatComposer } from "@/app/components/chat/chat-composer";
 import { ChatHeader } from "@/app/components/chat/chat-header";
+import type { HeaderMode } from "@/app/components/chat/header-mode-tabs";
 import { ChatRecommendations } from "@/app/components/chat/chat-recommendations";
+import { WhyThisMatchPanel } from "@/app/components/recommendations/why-this-match-panel";
 import {
   AssistantBlock,
   ConversationTurn,
@@ -54,6 +61,8 @@ export function PreferenceElicitationFlow() {
       session.status === "complete" ? { status: "loading" } : { status: "idle" },
     );
   const [hasStartedOverride, setHasStartedOverride] = useState(false);
+  const [headerMode, setHeaderMode] = useState<HeaderMode>("chat");
+  const [selectedRepoId, setSelectedRepoId] = useState<number | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const hasStarted =
     hasStartedOverride || session.turns.length > 0 || session.status === "complete";
@@ -124,7 +133,7 @@ export function PreferenceElicitationFlow() {
     }
 
     restartSession();
-    router.replace("/chat");
+    router.replace("/");
   }, [searchParams, router]);
 
   const persistSession = useCallback((next: ElicitationSession) => {
@@ -263,69 +272,114 @@ export function PreferenceElicitationFlow() {
     setHasStartedOverride(false);
     setInputValue("");
     setTurnError(null);
+    setSelectedRepoId(null);
     setRecommendationsState({ status: "idle" });
-    router.replace("/chat");
+    router.replace("/");
   }, [router]);
+
+  const selectedRepo = useMemo(() => {
+    if (recommendationsState.status !== "success" || selectedRepoId === null) {
+      return null;
+    }
+
+    return (
+      recommendationsState.data.recommendations.find((repo) => repo.id === selectedRepoId) ??
+      null
+    );
+  }, [recommendationsState, selectedRepoId]);
+
+  const chatColumn = (
+    <div className="flex h-full min-h-0 w-full max-w-chat shrink-0 flex-col overflow-hidden px-4">
+      <div
+        ref={scrollContainerRef}
+        className="scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
+      >
+        {!hasStarted ? (
+          <div className="flex h-full w-full flex-col items-center justify-center gap-6 text-center">
+            <p className="text-xl font-medium text-neutral-900">
+              Find open-source projects that fit you.
+            </p>
+            <p className="text-base leading-body text-neutral-500">
+              Tell us about your skills, interests, and goals. We&apos;ll match you
+              with repositories where you can realistically contribute and grow.
+            </p>
+            <button
+              type="button"
+              className="inline-flex items-center rounded-button bg-button-primary-default-bg-color px-3.5 py-2 text-base leading-body text-button-primary-default-text-color"
+              onClick={() => setHasStartedOverride(true)}
+            >
+              {headerMode === "voice" ? "Talk" : "Chat"}
+            </button>
+          </div>
+        ) : (
+          <div className="flex w-full flex-col gap-turn-gap pt-thread-top">
+            {session.turns.map((turn, index) => (
+              <ConversationTurn key={`turn-${index}`} turn={turn} />
+            ))}
+            {session.status === "in_progress" && session.pendingQuestion ? (
+              <AssistantBlock
+                content={session.pendingQuestion}
+                greeting={showOpeningGreeting ? OPENING_GREETING : undefined}
+              />
+            ) : null}
+            {isSubmittingTurn ? (
+              <AssistantStatusRow message={THINKING_STATUS_MESSAGE} />
+            ) : null}
+            {turnError ? <AssistantBlock content={turnError} /> : null}
+            {session.status === "complete" ? (
+              <ChatRecommendations
+                recommendationsState={recommendationsState}
+                selectedRepoId={selectedRepoId}
+                onSelectRepo={setSelectedRepoId}
+              />
+            ) : null}
+          </div>
+        )}
+      </div>
+
+      {hasStarted ? (
+        <div className="shrink-0 py-6">
+          <ChatComposer
+            value={inputValue}
+            onChange={setInputValue}
+            onSubmit={() => void submitTurn()}
+            disabled={session.status === "complete" || isSubmittingTurn}
+            canSend={canSend}
+          />
+        </div>
+      ) : null}
+    </div>
+  );
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-bg-color">
-      <ChatHeader onRestart={handleRestart} />
+      <ChatHeader
+        mode={headerMode}
+        onModeChange={setHeaderMode}
+        onRestart={handleRestart}
+      />
 
-      <div className="mx-auto flex h-full min-h-0 w-full max-w-chat flex-1 flex-col overflow-hidden px-4">
-        <div
-          ref={scrollContainerRef}
-          className="scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
-        >
-          {!hasStarted ? (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-6 text-center">
-              <p className="text-xl font-semibold text-neutral-900">
-                Find open-source projects that fit you.
-              </p>
-              <p className="text-base leading-body text-neutral-500">
-                Tell us about your skills, interests, and goals. We&apos;ll match you
-                with repositories where you can realistically contribute and grow.
-              </p>
-              <button
-                type="button"
-                className="inline-flex items-center rounded-button bg-button-primary-default-bg-color px-3.5 py-2 text-base leading-body text-button-primary-default-text-color"
-                onClick={() => setHasStartedOverride(true)}
-              >
-                Start
-              </button>
-            </div>
-          ) : (
-            <div className="flex w-full flex-col gap-turn-gap pt-thread-top">
-              {session.turns.map((turn, index) => (
-                <ConversationTurn key={`turn-${index}`} turn={turn} />
-              ))}
-              {session.status === "in_progress" && session.pendingQuestion ? (
-                <AssistantBlock
-                  content={session.pendingQuestion}
-                  greeting={showOpeningGreeting ? OPENING_GREETING : undefined}
-                />
-              ) : null}
-              {isSubmittingTurn ? (
-                <AssistantBlock content="Thinking about your response..." />
-              ) : null}
-              {turnError ? <AssistantBlock content={turnError} /> : null}
-              {session.status === "complete" ? (
-                <ChatRecommendations recommendationsState={recommendationsState} />
-              ) : null}
-            </div>
-          )}
-        </div>
-
-        {hasStarted ? (
-          <div className="shrink-0 py-6">
-            <ChatComposer
-              value={inputValue}
-              onChange={setInputValue}
-              onSubmit={() => void submitTurn()}
-              disabled={session.status === "complete" || isSubmittingTurn}
-              canSend={canSend}
+      <div className="flex min-h-0 flex-1 items-stretch justify-center gap-sheet-gap">
+        <div aria-hidden className="min-w-0 flex-1" />
+        {chatColumn}
+        {selectedRepo ? (
+          <>
+            <button
+              type="button"
+              aria-label="Close details panel"
+              className="fixed inset-0 z-40 bg-black/20 lg:hidden"
+              onClick={() => setSelectedRepoId(null)}
             />
-          </div>
-        ) : null}
+            <div className="max-lg:fixed max-lg:inset-y-0 max-lg:right-0 max-lg:z-50 lg:relative lg:flex">
+              <WhyThisMatchPanel
+                repo={selectedRepo}
+                onClose={() => setSelectedRepoId(null)}
+              />
+            </div>
+          </>
+        ) : (
+          <div aria-hidden className="min-w-0 flex-1 max-lg:hidden" />
+        )}
       </div>
     </div>
   );

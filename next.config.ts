@@ -9,33 +9,43 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/chat",
+        destination: "/",
+        permanent: false,
+      },
+      {
+        source: "/chat/:path*",
+        destination: "/",
+        permanent: false,
+      },
+      {
         source: "/onboarding",
-        destination: "/chat",
+        destination: "/",
         permanent: false,
       },
       {
         source: "/onboarding/:path*",
-        destination: "/chat",
+        destination: "/",
         permanent: false,
       },
       {
         source: "/preference-elicitation",
-        destination: "/chat",
+        destination: "/",
         permanent: false,
       },
       {
         source: "/preference-elicitation/:path*",
-        destination: "/chat",
+        destination: "/",
         permanent: false,
       },
       {
         source: "/recommendations",
-        destination: "/chat",
+        destination: "/",
         permanent: false,
       },
       {
         source: "/recommendations/:path*",
-        destination: "/chat",
+        destination: "/",
         permanent: false,
       },
       {

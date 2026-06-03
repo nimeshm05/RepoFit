@@ -25,7 +25,7 @@ export function HomeContent() {
       </div>
 
       <Link
-        href="/chat?restart=1"
+        href="/?restart=1"
         className={cn(
           buttonVariants(),
           "rounded-full px-3.5 py-2",

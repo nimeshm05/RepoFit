@@ -1,15 +1,6 @@
-import { Card } from "@/app/components/ui/Card";
-import { Text } from "@/app/components/ui/Text";
-import { truncateReadme } from "@/lib/github/get-repo-readme";
-import type { RepoCategory, RepoSummary } from "@/lib/github/types";
+import { Info } from "lucide-react";
 
-function formatUpdatedDate(isoDate: string): string {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date(isoDate));
-}
+import type { RepoCategory, RepoSummary } from "@/lib/github/types";
 
 function categoryLabel(category: RepoCategory): string {
   return category === "popular" ? "Popular" : "Most active";
@@ -32,26 +23,87 @@ type RepoCardProps = {
   repo: RepoSummary;
   recommendation?: RepoRecommendationDetails;
   className?: string;
+  isSelected?: boolean;
+  onOpenWhy?: () => void;
 };
 
-export function RepoCard({ repo, recommendation, className }: RepoCardProps) {
+function RepoStatsRow({ repo }: { repo: RepoSummary }) {
   return (
-    <Card className={className}>
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-center gap-2">
-          {recommendation && (
-            <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-medium text-primary-foreground">
-              #{recommendation.rank}
-            </span>
-          )}
-          <a
-            href={repo.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-lg font-semibold text-foreground hover:underline"
-          >
-            {repo.fullName}
-          </a>
+    <dl className="flex flex-wrap items-center gap-x-3 gap-y-2 text-base leading-body">
+      <div className="flex items-center gap-1">
+        <dt className="text-neutral-400">Language:</dt>
+        <dd className="text-neutral-900">{repo.language ?? "Unknown"}</dd>
+      </div>
+      <div className="flex items-center gap-1">
+        <dt className="text-neutral-400">Stars:</dt>
+        <dd className="text-neutral-900">{repo.stars.toLocaleString()}</dd>
+      </div>
+      <div className="flex items-center gap-1">
+        <dt className="text-neutral-400">Open Issues:</dt>
+        <dd className="text-neutral-900">{repo.openIssues.toLocaleString()}</dd>
+      </div>
+    </dl>
+  );
+}
+
+function RepoWhyTeaser({
+  fullName,
+  onOpenWhy,
+}: {
+  fullName: string;
+  onOpenWhy?: () => void;
+}) {
+  if (!onOpenWhy) {
+    return null;
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onOpenWhy}
+      className="inline-flex items-center gap-1 text-neutral-400 transition-colors hover:text-neutral-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400"
+      aria-label={`Why this match for ${fullName}`}
+    >
+      <Info className="size-4" aria-hidden />
+      <span className="text-assistant leading-5">Why this match?</span>
+    </button>
+  );
+}
+
+export function RepoCard({
+  repo,
+  recommendation,
+  className,
+  isSelected = false,
+  onOpenWhy,
+}: RepoCardProps) {
+  return (
+    <div className={className}>
+      <div
+        className={`flex w-full flex-col gap-repo-card-inner rounded-button bg-background px-repo-card-x py-repo-card-y transition-colors ${isSelected ? "ring-1 ring-neutral-300" : ""}`}
+      >
+        <div className="flex flex-col gap-repo-main">
+          <div className="flex flex-col gap-repo-info">
+            <a
+              href={repo.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-base font-semibold leading-body text-neutral-900 hover:underline"
+            >
+              {repo.fullName}
+            </a>
+            {repo.description ? (
+              <p className="text-base leading-body text-neutral-500">{repo.description}</p>
+            ) : null}
+          </div>
+          <RepoStatsRow repo={repo} />
+        </div>
+        {recommendation ? (
+          <RepoWhyTeaser fullName={repo.fullName} onOpenWhy={onOpenWhy} />
+        ) : null}
+      </div>
+      {!recommendation ? (
+        <div className="mt-2 flex flex-wrap gap-2">
           <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800">
             Good first issues
           </span>
@@ -64,88 +116,7 @@ export function RepoCard({ repo, recommendation, className }: RepoCardProps) {
             </span>
           ))}
         </div>
-
-        {repo.description && (
-          <Text size="lg" className="text-muted">
-            {repo.description}
-          </Text>
-        )}
-
-        <dl className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted">
-          <div>
-            <dt className="sr-only">Language</dt>
-            <dd>{repo.language ?? "Unknown"}</dd>
-          </div>
-          <div>
-            <dt className="sr-only">Stars</dt>
-            <dd>{repo.stars.toLocaleString()} stars</dd>
-          </div>
-          <div>
-            <dt className="sr-only">Open issues</dt>
-            <dd>{repo.openIssues.toLocaleString()} open issues</dd>
-          </div>
-          <div>
-            <dt className="sr-only">Last updated</dt>
-            <dd>Updated {formatUpdatedDate(repo.updatedAt)}</dd>
-          </div>
-        </dl>
-
-        {recommendation && (
-          <div className="flex flex-col gap-4 border-t border-border pt-4">
-            <div className="flex flex-col gap-2">
-              <Text size="sm" weight="semibold" className="uppercase tracking-wide text-muted">
-                Why this matches
-              </Text>
-              <Text size="lg">{recommendation.whyThisMatches}</Text>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Text size="sm" weight="semibold" className="uppercase tracking-wide text-muted">
-                Match highlights
-              </Text>
-              <ul className="list-disc space-y-1 pl-5 text-lg text-foreground">
-                {recommendation.matchHighlights.map((highlight) => (
-                  <li key={highlight}>{highlight}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Text size="sm" weight="semibold" className="uppercase tracking-wide text-muted">
-                Tradeoffs
-              </Text>
-              <ul className="list-disc space-y-1 pl-5 text-lg text-muted">
-                {recommendation.tradeoffs.map((tradeoff) => (
-                  <li key={tradeoff}>{tradeoff}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {repo.readme && (
-          <details className="rounded-card border border-border bg-background">
-            <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-muted">
-              Preview README
-            </summary>
-            <div className="border-t border-border px-4 py-3">
-              <pre className="max-h-64 overflow-auto whitespace-pre-wrap text-xs leading-6 text-muted">
-                {truncateReadme(repo.readme)}
-              </pre>
-              {repo.readmeUrl && (
-                <a
-                  href={repo.readmeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-block text-sm font-medium text-foreground hover:underline"
-                >
-                  Read full README on GitHub
-                </a>
-              )}
-            </div>
-          </details>
-        )}
-      </div>
-    </Card>
+      ) : null}
+    </div>
   );
 }

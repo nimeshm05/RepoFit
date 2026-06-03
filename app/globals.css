@@ -20,6 +20,7 @@
   --button-default-bg-color: #171717;
   --button-disabled-bg-color: #d4d4d4;
   --button-hover-bg-color: #404040;
+  --button-primary-click-bg-color: #171717;
   --button-default-text-color: #fafafa;
   --button-secondary-default-bg-color: #f5f5f5;
   --button-secondary-default-text-color: #171717;
@@ -46,6 +47,7 @@
   --layout-chat-max-width: 600px;
   --layout-home-max-width: 540px;
   --layout-home-min-height: 70vh;
+  --layout-sheet-gap: 16px;
 
   /* Spacing */
   --space-turn-gap: 80px;
@@ -60,8 +62,21 @@
   --user-message-padding-x: 20px;
   --user-message-padding-y: 16px;
 
+  /* Repo recommendation cards and why panel */
+  --repo-card-padding-x: 20px;
+  --repo-card-padding-y: 16px;
+  --repo-card-inner-gap: 12px;
+  --repo-main-gap: 16px;
+  --repo-info-gap: 6px;
+  --why-panel-width: 440px;
+  --why-panel-sections-gap: 40px;
+
   /* Components */
   --avatar-size: 24px;
+  --radius-icon-button: 8px;
+  --icon-button-size: 36px;
+  --icon-button-padding: 12px;
+  --icon-button-icon-size: 20px;
   --tooltip-width: 292px;
   --shadow-tooltip:
     0px 1px 0.5px rgba(0, 0, 0, 0.05), 0px 4px 3px rgba(0, 0, 0, 0.04),
@@ -89,6 +104,7 @@
   --color-primary-hover: var(--button-hover-bg-color);
   --color-primary-disabled: var(--button-disabled-bg-color);
   --color-button-primary-default-bg-color: var(--button-default-bg-color);
+  --color-button-primary-click-bg-color: var(--button-primary-click-bg-color);
   --color-button-primary-default-text-color: var(--button-default-text-color);
   --color-button-secondary-default-bg-color: var(--button-secondary-default-bg-color);
   --color-button-secondary-default-text-color: var(--button-secondary-default-text-color);
@@ -117,7 +133,11 @@
   --leading-body: var(--body-line-height);
 
   --radius-button: 12px;
+  --radius-icon-button: var(--radius-icon-button);
   --radius-card: 16px;
+  --size-icon-button: var(--icon-button-size);
+  --spacing-icon-button: var(--icon-button-padding);
+  --size-icon-button-icon: var(--icon-button-icon-size);
 
   --line-height-chat: calc(4.8px * 4);
 
@@ -129,11 +149,21 @@
   --spacing-send-button: var(--space-send-button);
   --spacing-user-message-x: var(--user-message-padding-x);
   --spacing-user-message-y: var(--user-message-padding-y);
+  --spacing-repo-card-x: var(--repo-card-padding-x);
+  --spacing-repo-card-y: var(--repo-card-padding-y);
+  --spacing-repo-card-inner: var(--repo-card-inner-gap);
+  --spacing-repo-main: var(--repo-main-gap);
+  --spacing-repo-info: var(--repo-info-gap);
+  --spacing-why-panel-sections: var(--why-panel-sections-gap);
+  --spacing-sheet-gap: var(--layout-sheet-gap);
 
   /* --container-* → max-w-* (not --width-*, which only creates w-*) */
   --container-chat: var(--layout-chat-max-width);
   --container-home: var(--layout-home-max-width);
   --container-user-message: var(--user-message-max-width);
+  --container-why-panel: var(--why-panel-width);
+
+  --width-why-panel: var(--why-panel-width);
 
   --spacing-tooltip: var(--tooltip-width);
 
