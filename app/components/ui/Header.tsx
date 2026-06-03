@@ -11,6 +11,7 @@ import { Tooltip } from "@/app/components/ui/Tooltip";
 export const REPOFIT_INFO_TOOLTIP =
   "RepoFit helps you discover GitHub projects that match your skills, interests, and contribution goals.";
 
+/** Generic header with title/info or custom leading; chat uses ChatHeader (Figma 2063:1862) instead. */
 export type HeaderProps = {
   title?: string;
   /** Pass `null` to hide the info button. */

@@ -34,7 +34,7 @@ export function HeaderModeTabs({
   return (
     <div
       role="tablist"
-      aria-label="Conversation mode"
+      aria-label="Conversation mode. Selecting a tab restarts the session."
       className={cn("flex items-center gap-[8px]", className)}
     >
       <ModeTab

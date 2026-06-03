@@ -267,15 +267,19 @@ export function PreferenceElicitationFlow() {
     }
   }, [inputValue, persistSession, session]);
 
-  const handleRestart = useCallback(() => {
-    restartSession();
-    setHasStartedOverride(false);
-    setInputValue("");
-    setTurnError(null);
-    setSelectedRepoId(null);
-    setRecommendationsState({ status: "idle" });
-    router.replace("/");
-  }, [router]);
+  const handleModeChange = useCallback(
+    (mode: HeaderMode) => {
+      restartSession();
+      setHasStartedOverride(false);
+      setInputValue("");
+      setTurnError(null);
+      setSelectedRepoId(null);
+      setRecommendationsState({ status: "idle" });
+      setHeaderMode(mode);
+      router.replace("/");
+    },
+    [router],
+  );
 
   const selectedRepo = useMemo(() => {
     if (recommendationsState.status !== "success" || selectedRepoId === null) {
@@ -353,11 +357,7 @@ export function PreferenceElicitationFlow() {
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-bg-color">
-      <ChatHeader
-        mode={headerMode}
-        onModeChange={setHeaderMode}
-        onRestart={handleRestart}
-      />
+      <ChatHeader mode={headerMode} onModeChange={handleModeChange} />
 
       <div className="flex min-h-0 flex-1 items-stretch justify-center gap-sheet-gap">
         <div aria-hidden className="min-w-0 flex-1" />
