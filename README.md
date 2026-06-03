@@ -27,6 +27,11 @@ OPENAI_API_KEY=sk-...
 # Optional — defaults to gpt-5.4-nano
 OPENAI_MODEL=gpt-5.4-nano
 
+# Optional — voice mode (defaults: gpt-4o-mini-transcribe, tts-1, nova)
+OPENAI_TRANSCRIBE_MODEL=gpt-4o-mini-transcribe
+OPENAI_TTS_MODEL=tts-1
+OPENAI_TTS_VOICE=nova
+
 # Optional — higher GitHub API rate limits (recommended for fetch-repos)
 GITHUB_TOKEN=
 ```

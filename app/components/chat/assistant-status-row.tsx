@@ -4,7 +4,7 @@ import { BotAvatar } from "@/app/components/chat/bot-avatar";
 export function AssistantStatusRow({ message }: { message: string }) {
   return (
     <div className="flex items-end gap-3" role="status" aria-live="polite">
-      <BotAvatar />
+      <BotAvatar isThinking />
       <p className="break-words text-base font-normal leading-body text-neutral-400">{message}</p>
     </div>
   );

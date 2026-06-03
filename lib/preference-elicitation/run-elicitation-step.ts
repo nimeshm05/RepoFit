@@ -1,5 +1,3 @@
-import OpenAI from "openai";
-
 import { buildSystemPrompt } from "@/lib/preference-elicitation/build-system-prompt";
 import { DEFAULT_OPENAI_MODEL, MAX_QUESTIONS } from "@/lib/preference-elicitation/constants";
 import type {
@@ -7,15 +5,7 @@ import type {
   ElicitationTurn,
   PreferenceProfile,
 } from "@/lib/preference-elicitation/types";
-
-function getOpenAIClient(): OpenAI {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    throw new Error("OPENAI_API_KEY is not configured");
-  }
-
-  return new OpenAI({ apiKey });
-}
+import { getOpenAIClient } from "@/lib/openai/get-client";
 
 function buildConversationMessages(turns: ElicitationTurn[]) {
   return turns.flatMap((turn) => [

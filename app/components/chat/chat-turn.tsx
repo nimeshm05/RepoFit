@@ -1,24 +1,41 @@
 import { BotAvatar } from "@/app/components/chat/bot-avatar";
+import { TypewriterText } from "@/app/components/chat/typewriter-text";
 import type { ElicitationTurn } from "@/lib/preference-elicitation/types";
+
+const assistantTextClass =
+  "whitespace-pre-wrap break-words text-sm leading-6 text-neutral-900";
 
 export function AssistantBlock({
   content,
   greeting,
+  animate = true,
+  isThinking = false,
 }: {
   content: string;
   greeting?: string;
+  /** Typewriter on new messages; off for messages already in the thread history. */
+  animate?: boolean;
+  isThinking?: boolean;
 }) {
   return (
     <div className="flex w-full flex-col items-start gap-assistant-block">
-      <BotAvatar />
-      <div className="flex w-full flex-col gap-assistant-block whitespace-pre-wrap break-words text-sm leading-6 text-neutral-900">
+      <BotAvatar isThinking={isThinking} />
+      <div className="flex w-full flex-col gap-assistant-block">
         {greeting ? (
           <>
-            <p className="mb-0">{greeting}</p>
-            <p className="mt-0">{content}</p>
+            <p className={`mb-0 ${assistantTextClass}`}>{greeting}</p>
+            <TypewriterText
+              className={`mt-0 ${assistantTextClass}`}
+              text={content}
+              animate={animate}
+            />
           </>
         ) : (
-          <p>{content}</p>
+          <TypewriterText
+            className={assistantTextClass}
+            text={content}
+            animate={animate}
+          />
         )}
       </div>
     </div>
@@ -41,7 +58,7 @@ export function UserAnswer({ content }: { content: string }) {
 export function ConversationTurn({ turn }: { turn: ElicitationTurn }) {
   return (
     <div className="flex w-full flex-col gap-in-turn">
-      <AssistantBlock content={turn.question} />
+      <AssistantBlock content={turn.question} animate={false} />
       <UserAnswer content={turn.answer} />
     </div>
   );

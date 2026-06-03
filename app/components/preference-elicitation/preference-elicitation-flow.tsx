@@ -16,9 +16,11 @@ import {
 } from "@/app/components/chat/assistant-status-row";
 import { ChatComposer } from "@/app/components/chat/chat-composer";
 import { ChatHeader } from "@/app/components/chat/chat-header";
+import { VoiceElicitationView } from "@/app/components/voice/voice-elicitation-view";
 import type { HeaderMode } from "@/app/components/chat/header-mode-tabs";
 import { ChatRecommendations } from "@/app/components/chat/chat-recommendations";
 import { WhyThisMatchPanel } from "@/app/components/recommendations/why-this-match-panel";
+import { PreStartHome } from "@/app/components/home/pre-start-home";
 import {
   AssistantBlock,
   ConversationTurn,
@@ -183,12 +185,12 @@ export function PreferenceElicitationFlow() {
     inputValue.trim().length > 0 &&
     !isSubmittingTurn;
 
-  const submitTurn = useCallback(async () => {
+  const submitTurn = useCallback(async (answerOverride?: string) => {
     const question = session.pendingQuestion;
     if (!question) {
       return;
     }
-    const answer = inputValue.trim();
+    const answer = (answerOverride ?? inputValue).trim();
     if (!answer) {
       return;
     }
@@ -292,6 +294,25 @@ export function PreferenceElicitationFlow() {
     );
   }, [recommendationsState, selectedRepoId]);
 
+  const voiceSpeechKey = `${session.flowKey}:${session.turns.length}:${session.pendingQuestion ?? ""}`;
+
+  const recommendationsColumn = (
+    <div className="flex h-full min-h-0 w-full max-w-chat shrink-0 flex-col overflow-hidden px-4">
+      <div
+        ref={scrollContainerRef}
+        className="scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
+      >
+        <div className="flex w-full flex-col gap-turn-gap pt-thread-top">
+          <ChatRecommendations
+            recommendationsState={recommendationsState}
+            selectedRepoId={selectedRepoId}
+            onSelectRepo={setSelectedRepoId}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
   const chatColumn = (
     <div className="flex h-full min-h-0 w-full max-w-chat shrink-0 flex-col overflow-hidden px-4">
       <div
@@ -299,22 +320,10 @@ export function PreferenceElicitationFlow() {
         className="scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
       >
         {!hasStarted ? (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-6 text-center">
-            <p className="text-xl font-medium text-neutral-900">
-              Find open-source projects that fit you.
-            </p>
-            <p className="text-base leading-body text-neutral-500">
-              Tell us about your skills, interests, and goals. We&apos;ll match you
-              with repositories where you can realistically contribute and grow.
-            </p>
-            <button
-              type="button"
-              className="inline-flex items-center rounded-button bg-button-primary-default-bg-color px-3.5 py-2 text-base leading-body text-button-primary-default-text-color"
-              onClick={() => setHasStartedOverride(true)}
-            >
-              {headerMode === "voice" ? "Talk" : "Chat"}
-            </button>
-          </div>
+          <PreStartHome
+            headerMode={headerMode}
+            onStart={() => setHasStartedOverride(true)}
+          />
         ) : (
           <div className="flex w-full flex-col gap-turn-gap pt-thread-top">
             {session.turns.map((turn, index) => (
@@ -324,6 +333,7 @@ export function PreferenceElicitationFlow() {
               <AssistantBlock
                 content={session.pendingQuestion}
                 greeting={showOpeningGreeting ? OPENING_GREETING : undefined}
+                isThinking={isSubmittingTurn}
               />
             ) : null}
             {isSubmittingTurn ? (
@@ -361,7 +371,23 @@ export function PreferenceElicitationFlow() {
 
       <div className="flex min-h-0 flex-1 items-stretch justify-center gap-sheet-gap">
         <div aria-hidden className="min-w-0 flex-1" />
-        {chatColumn}
+        {!hasStarted ? (
+          chatColumn
+        ) : headerMode === "voice" && session.status === "complete" ? (
+          recommendationsColumn
+        ) : headerMode === "voice" ? (
+          <VoiceElicitationView
+            pendingQuestion={session.pendingQuestion}
+            showOpeningGreeting={showOpeningGreeting}
+            openingGreeting={OPENING_GREETING}
+            isSubmittingTurn={isSubmittingTurn}
+            turnError={turnError}
+            speechKey={voiceSpeechKey}
+            onSubmitAnswer={submitTurn}
+          />
+        ) : (
+          chatColumn
+        )}
         {selectedRepo ? (
           <>
             <button

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { BotAvatar } from "@/app/components/chat/bot-avatar";
 import { buttonVariants } from "@/lib/button-variants";
 import { Text } from "@/app/components/ui/Text";
 import { cn } from "@/lib/cn";
@@ -13,6 +14,7 @@ export function HomeContent() {
           <Text as="h1" size="5xl">
             RepoFit
           </Text>
+          <BotAvatar className="size-[60px]" isThinking />
           <Text size="2xl" className="text-neutral-600">
             Find open-source projects that fit you.
           </Text>
