@@ -192,6 +192,28 @@ body {
   display: none;
 }
 
+@keyframes repo-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-repo-card-enter {
+  animation: repo-card-enter 0.45s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-repo-card-enter {
+    animation: none;
+  }
+}
+
 /* Hide Next.js dev overlay portal in development */
 nextjs-portal {
   display: none !important;

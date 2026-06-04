@@ -1,11 +1,20 @@
 "use client";
 
 import { AudioLines, MessageCircle } from "lucide-react";
+import { LayoutGroup, motion } from "motion/react";
 import { useState } from "react";
 
 import { cn } from "@/lib/cn";
 
 export type HeaderMode = "chat" | "voice";
+
+const TAB_HIGHLIGHT_LAYOUT_ID = "header-mode-tab-highlight";
+
+const tabHighlightTransition = {
+  type: "spring",
+  stiffness: 380,
+  damping: 32,
+} as const;
 
 type HeaderModeTabsProps = {
   value?: HeaderMode;
@@ -32,26 +41,28 @@ export function HeaderModeTabs({
   };
 
   return (
-    <div
-      role="tablist"
-      aria-label="Conversation mode. Selecting a tab restarts the session."
-      className={cn("flex items-center gap-[8px]", className)}
-    >
-      <ModeTab
-        id="header-mode-chat"
-        isActive={mode === "chat"}
-        label="Chat"
-        icon={MessageCircle}
-        onSelect={() => selectMode("chat")}
-      />
-      <ModeTab
-        id="header-mode-voice"
-        isActive={mode === "voice"}
-        label="Voice"
-        icon={AudioLines}
-        onSelect={() => selectMode("voice")}
-      />
-    </div>
+    <LayoutGroup id="header-mode-tabs">
+      <div
+        role="tablist"
+        aria-label="Conversation mode. Selecting a tab restarts the session."
+        className={cn("flex items-center gap-[8px]", className)}
+      >
+        <ModeTab
+          id="header-mode-chat"
+          isActive={mode === "chat"}
+          label="Chat"
+          icon={MessageCircle}
+          onSelect={() => selectMode("chat")}
+        />
+        <ModeTab
+          id="header-mode-voice"
+          isActive={mode === "voice"}
+          label="Voice"
+          icon={AudioLines}
+          onSelect={() => selectMode("voice")}
+        />
+      </div>
+    </LayoutGroup>
   );
 }
 
@@ -77,13 +88,20 @@ function ModeTab({
       aria-controls={`${id}-panel`}
       tabIndex={isActive ? 0 : -1}
       onClick={onSelect}
-      className={cn(
-        "inline-flex shrink-0 items-center justify-center gap-header-gap rounded-button px-3 py-2 text-base leading-body text-foreground transition-colors",
-        isActive ? "bg-neutral-100" : "bg-bg-color",
-      )}
+      className="relative inline-flex shrink-0 items-center justify-center rounded-button px-3 py-2 text-base leading-body text-foreground"
     >
-      <Icon className="size-4 shrink-0" strokeWidth={2} aria-hidden />
-      <span>{label}</span>
+      {isActive ? (
+        <motion.span
+          layoutId={TAB_HIGHLIGHT_LAYOUT_ID}
+          className="absolute inset-0 rounded-button bg-neutral-100"
+          transition={tabHighlightTransition}
+          aria-hidden
+        />
+      ) : null}
+      <span className="relative z-10 inline-flex items-center justify-center gap-header-gap">
+        <Icon className="size-4 shrink-0" strokeWidth={2} aria-hidden />
+        <span>{label}</span>
+      </span>
     </button>
   );
 }

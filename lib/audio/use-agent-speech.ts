@@ -10,6 +10,8 @@ type UseAgentSpeechOptions = {
   enabled: boolean;
   /** Changes when session restarts so stale audio is not played */
   speechKey: string;
+  /** Fired when agent audio finishes playing naturally */
+  onSpeechEnded?: () => void;
 };
 
 type UseAgentSpeechResult = {
@@ -23,12 +25,18 @@ export function useAgentSpeech({
   speechText,
   enabled,
   speechKey,
+  onSpeechEnded,
 }: UseAgentSpeechOptions): UseAgentSpeechResult {
   const [phase, setPhase] = useState<AgentSpeechPhase>("idle");
   const [error, setError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const objectUrlRef = useRef<string | null>(null);
   const requestIdRef = useRef(0);
+  const onSpeechEndedRef = useRef(onSpeechEnded);
+
+  useEffect(() => {
+    onSpeechEndedRef.current = onSpeechEnded;
+  }, [onSpeechEnded]);
 
   const revokeObjectUrl = useCallback(() => {
     if (objectUrlRef.current) {
@@ -96,6 +104,7 @@ export function useAgentSpeech({
         audio.onended = () => {
           if (requestId === requestIdRef.current) {
             stop();
+            onSpeechEndedRef.current?.();
           }
         };
 

@@ -6,6 +6,7 @@ import {
 } from "@/app/components/chat/assistant-status-row";
 import { AssistantBlock } from "@/app/components/chat/chat-turn";
 import { RepoCard } from "@/app/components/repositories/repo-card";
+import { cn } from "@/lib/cn";
 import type { MatchmakingResult } from "@/lib/matchmaking/types";
 
 type RecommendationsState =
@@ -46,11 +47,12 @@ export function ChatRecommendations({
         {recommendationsState.data.recommendations.map((repo, index) => (
           <div
             key={repo.id}
-            className={
-              index < recommendationsState.data.recommendations.length - 1
-                ? "border-b border-border pb-5"
-                : undefined
-            }
+            className={cn(
+              "animate-repo-card-enter",
+              index < recommendationsState.data.recommendations.length - 1 &&
+                "border-b border-border pb-5",
+            )}
+            style={{ animationDelay: `${index * 80}ms` }}
           >
             <RepoCard
               repo={repo}

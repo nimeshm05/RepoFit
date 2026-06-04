@@ -19,7 +19,7 @@ import { ChatHeader } from "@/app/components/chat/chat-header";
 import { VoiceElicitationView } from "@/app/components/voice/voice-elicitation-view";
 import type { HeaderMode } from "@/app/components/chat/header-mode-tabs";
 import { ChatRecommendations } from "@/app/components/chat/chat-recommendations";
-import { WhyThisMatchPanel } from "@/app/components/recommendations/why-this-match-panel";
+import { WhyThisMatchPanelSlide } from "@/app/components/recommendations/why-this-match-panel-slide";
 import { PreStartHome } from "@/app/components/home/pre-start-home";
 import {
   AssistantBlock,
@@ -389,20 +389,10 @@ export function PreferenceElicitationFlow() {
           chatColumn
         )}
         {selectedRepo ? (
-          <>
-            <button
-              type="button"
-              aria-label="Close details panel"
-              className="fixed inset-0 z-40 bg-black/20 lg:hidden"
-              onClick={() => setSelectedRepoId(null)}
-            />
-            <div className="max-lg:fixed max-lg:inset-y-0 max-lg:right-0 max-lg:z-50 lg:relative lg:flex">
-              <WhyThisMatchPanel
-                repo={selectedRepo}
-                onClose={() => setSelectedRepoId(null)}
-              />
-            </div>
-          </>
+          <WhyThisMatchPanelSlide
+            repo={selectedRepo}
+            onClose={() => setSelectedRepoId(null)}
+          />
         ) : (
           <div aria-hidden className="min-w-0 flex-1 max-lg:hidden" />
         )}
