@@ -180,3 +180,6 @@ Set the same environment variables in your deployment environment. Ensure `logs/
 | `npm run start` | Serve the production build |
 | `npm run fetch-repos` | Fetch repos and write `logs/matchmaking-repos.json` |
 | `npm run lint` | Run ESLint |
+
+The tool can be accessed here: https://repo-fit.vercel.app/
+
