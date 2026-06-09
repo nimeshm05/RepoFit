@@ -1,0 +1,19 @@
+# Reflection
+
+## What did you build?
+
+I built **RepoFit**, a web app that helps early-career developers find open-source GitHub repositories where they could realistically contribute. Instead of browsing trending repos or filling out a static survey, users go through a conversational preference-elicitation flow: they describe their technologies, goals, and interests in chat or voice, and an AI assistant asks adaptive follow-up questions. When elicitation finishes, a matchmaking engine ranks three repositories from a curated catalog and explains each match with highlights and tradeoffs. Users can open a "Why this match" side panel for deeper reasoning. The experience lives on a single page — pre-start home, chat composer, voice recording, and inline recommendation cards — so it feels like one continuous conversation rather than separate tools stitched together.
+
+## What decisions did you make?
+
+I chose **Next.js** (App Router) because it let me ship API routes, server logic, and React UI in one codebase without managing separate deployments. For data, I used the **GitHub API** to fetch beginner-friendly public repos (`good-first-issues:>=3`, active, non-archived) with full READMEs, then cached them in `logs/matchmaking-repos.json` so matchmaking stays fast and predictable. I separated preference elicitation and matchmaking into two API endpoints, with markdown docs in `docs/` driving system prompts — making behavior editable without rewriting code. Compared to my MP2a declaration, I narrowed the catalog from 50 to 10 repos for reliability, collapsed separate elicitation and recommendation routes into one continuous view, and added voice mode. I prioritized explainability over breadth: three ranked repos with reasoning, not a long browse list.
+
+## What would you do differently?
+
+Two concrete changes. First, I would add a **retrieval stage** before LLM ranking. Right now `runMatchmaking()` JSON-stringifies all ten repos — including full READMEs — into a single prompt. That works at small scale but will not scale, and ranking quality depends on what fits in context. A hybrid approach — embedding user turns, retrieving top-N candidates, then asking the model to rank and explain — would support a larger catalog without timeouts or generic recommendations.
+
+Second, I would add **post-recommendation feedback** on each `RepoCard`: a thumbs-up/down or short "not relevant because…" input. The `WhyThisMatchPanel` explains matches but never learns from user disagreement. Capturing that signal would improve trust and give a way to evaluate whether matchmaking prompts produce genuinely personalized results across different user profiles.
+
+## What does this work demonstrate?
+
+This project demonstrates **AI interaction design and prototyping**. The adaptive elicitation in `lib/preference-elicitation/run-elicitation-step.ts` implements a "1 + adaptive" strategy from `docs/preference-elicitation-strategy.md` — one open question, then model-chosen follow-ups capped at five — showing design for conversational discovery rather than form completion. It demonstrates **user experience and interface design** through the Figma-aligned chat header, `ChatComposer`, voice mode in `VoiceElicitationView`, and an accessible `WhyThisMatchPanel` with keyboard escape handling. It demonstrates **technical prototyping**: GitHub ingestion in `lib/github/`, prompt-driven matchmaking in `lib/matchmaking/build-system-prompt.ts`, and client session persistence in `storage.ts`. Finally, it demonstrates **designing for transparency in AI recommendations** — ranked repos, match highlights, and honest tradeoffs — so users can judge whether the system understood them.
